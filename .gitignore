@@ -1,0 +1,11 @@
+/log
+/static/images/uploads/*
+/.vscode
+/backup
+/zip
+
+*.yaml
+!env.example.yaml
+__debug*
+
+/static/uploads/images

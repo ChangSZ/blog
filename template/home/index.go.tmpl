@@ -1,0 +1,68 @@
+{{define "pageList"}}
+<section id="hero" class="scrollme">
+    <div class="container-fluid element-img"
+         style="background: url({{.themeImg}}/index.jpg) no-repeat center center fixed;background-size: cover">
+        <div class="herofade beige-dk"></div>
+    </div>
+</section>
+
+<!-- Height spacing helper -->
+<div class="heightblock"></div>
+<!-- // End height spacing helper -->
+
+<!-- ============================ END Hero Image =========================== -->
+<!-- ============================ Content =========================== -->
+
+<section id="intro">
+    <div class="container">
+
+        {{ range $i,$post := .post }}
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2 opening-statement">
+                    <div class="col-md-4">
+                        <h3><a href="/detail/{{$post.Post.Id}}">{{$post.Post.Title}}</a></h3>
+                        <span>
+                        <span class="post-meta">
+                          <time datetime="{{$post.Post.CreatedAt}}" itemprop="datePublished">
+                              {{$post.Post.CreatedAt}}
+                          </time>
+                            |
+                            {{ range $t,$tag := $post.Tags }}
+                                <a href='tags/{{$tag.Name}}'>{{$tag.DisplayName}}</a>
+                                ,
+                            {{end}}
+                            |
+                             <span>浏览数:({{$post.View.Num}})</span>
+                        </span>
+                    </span>
+                    </div>
+                    <div class="col-md-8">
+                        <p>
+                            {{$post.Post.Summary}} ...
+                        </p>
+
+                        <p class="pull-right readMore">
+                            <a href="detail/{{$post.Post.Id}}">Read More...</a>
+                        </p>
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <hr class="nogutter">
+                </div>
+            </div>
+
+        {{end}}
+
+
+        <nav class="pagination" role="pagination">
+            {{if ne .paginate.Last .paginate.Current}}
+                <a class="pull-left" href="/?page={{.paginate.Last}}">← Prev Page</a>
+            {{end}}
+            {{if ne .paginate.Next .paginate.Current}}
+                <a class="pull-right" href="/?page={{.paginate.Next}}">Next Page →</a>
+            {{end}}
+        </nav>
+    </div>
+</section>
+
+{{end}}

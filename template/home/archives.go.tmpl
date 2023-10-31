@@ -1,0 +1,37 @@
+{{define  "archives"}}
+    <script type="text/javascript" src="{{.themeArchivesJs}}/archives.js"></script>
+    <link href="{{.themeArchivesCss}}/archives.css" type="text/css" rel="stylesheet" />
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="demo">
+                    <div class="history">
+                        {{range $k,$v := .archives}}
+                            <div class="history-date">
+                            <ul>
+                                <h2 class="first"><a href="#nogo">{{$v.dates}}</a></h2>
+                                {{ range $i,$j := $v.lists }}
+                                    <li class="green">
+                                        <h3>{{MDate2 $j.CreatedAt}}<span>{{$v.dates}}</span></h3>
+                                        <dl>
+                                            <dt>
+                                                <a href="/detail/{{$j.ID}}">
+                                                     <span style="font-size: 14px">
+                                                         <strong>
+                                                              {{$j.Title}}
+                                                         </strong>
+                                                    </span>
+                                                </a>
+                                            </dt>
+                                        </dl>
+                                    </li>
+                                {{end}}
+                            </ul>
+                        </div>
+                        {{end}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{{end}}
