@@ -34,7 +34,8 @@
 
 ## 运行方法
 ### 前置配置
-需在mysql中创建`blog`数据库，并将`/common/sql.sql`导入
+- 需在mysql中创建`blog`数据库，并将`/common/sql.sql`导入
+- 需将`env.example.yaml`配置文件拷贝一份，dev及本地测试环境命名为`env.dev.yaml`，prod环境命名为`env.prod.yaml`，并将其中的db、redis配置完全
 
 ### 启动方式1
 ```golang
