@@ -106,7 +106,12 @@ func (c *Auth) AuthRegister(ctx *gin.Context) {
 		appG.Response(http.StatusOK, 400001004, nil)
 		return
 	}
-	service.UserStore(ctx, ar)
+	_, err = service.UserStore(ctx, ar)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		appG.Response(http.StatusOK, 407000016, nil)
+		return
+	}
 	appG.Response(http.StatusOK, 0, nil)
 	return
 }
