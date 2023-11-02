@@ -121,9 +121,9 @@ func RoutersInit() *gin.Engine {
 			"MDate":  common.MDate,
 			"MDate2": common.MDate2,
 		})
-		r.LoadHTMLGlob("template/home/*.go.tmpl")
+		r.LoadHTMLGlob("template/*.go.tmpl")
 
-		r.Static("/static/home", "./static/home")
+		r.Static("/static/assets/", "./static/assets/")
 		h.GET("/", web.Index)
 		h.GET("/categories/:name", web.IndexCate)
 		h.GET("/tags/:name", web.IndexTag)
@@ -133,7 +133,7 @@ func RoutersInit() *gin.Engine {
 		h.GET("/atom", web.Atom)
 		h.GET("/404", web.NoFound)
 		h.GET("/favicon.ico", func(ctx *gin.Context) {
-			ctx.File("./static/home/assets/img/favicon.ico")
+			ctx.File("./static/assets/img/favicon.ico")
 		})
 	}
 	return r

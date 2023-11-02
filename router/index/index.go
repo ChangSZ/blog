@@ -246,8 +246,8 @@ func (w *Web) Atom(ctx *gin.Context) {
 func (w *Web) NoFound(ctx *gin.Context) {
 	w.C = ctx
 	w.Response(http.StatusOK, 404, gin.H{
-		"themeJs":  "/static/home/assets/js",
-		"themeCss": "/static/home/assets/css",
+		"themeJs":  "/static/assets/js",
+		"themeCss": "/static/assets/css",
 	})
 	return
 }

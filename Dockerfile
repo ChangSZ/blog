@@ -1,4 +1,4 @@
-FROM golang:latest AS builder
+FROM golang:1.21 AS builder
 
 ENV GOPROXY https://goproxy.cn,direct
 WORKDIR /work
@@ -6,7 +6,7 @@ COPY . /work
 RUN go build -o blog main.go
 
 # 多级构建
-FROM alpine:latest
+FROM alpine:3.17
 
 WORKDIR /work
 ENV TZ=Asia/Shanghai
@@ -21,9 +21,7 @@ RUN set -eux; \
     # 在go程序中无法访问https链接; \
     apk add --no-cache ca-certificates; \
     # 主要用来进行mysqldump操作
-    apk add --no-cache mysql-client; \
-    # go程序在alpine下不解析hosts文件; \
-    echo "hosts: files dns" > /etc/nsswitch.conf
+    apk add --no-cache mysql-client
 
 COPY --from=builder /work/blog /work/blog
 COPY --from=builder /work/static /work/static
