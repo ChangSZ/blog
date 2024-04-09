@@ -2,12 +2,14 @@ package log
 
 import (
 	"context"
-	"io"
-	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	kratoszap "github.com/go-kratos/kratos/contrib/log/zap/v2"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/tracing"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 var myLogger log.Logger
@@ -117,14 +119,26 @@ func Fatalw(keyvals ...interface{}) {
 	log.Fatalw(keyvals...)
 }
 
+// timeEncoder 时间格式化函数
+func timeEncoder(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
+	enc.AppendString(t.Format("2006-01-02T15:04:05-07:00"))
+}
+
 func Init(filePath string, maxDays int) {
 	writer, err := RotateDailyLog(filePath, maxDays)
 	if err != nil {
 		panic("创建日志文件失败")
 	}
-	multiWriter := io.MultiWriter(os.Stdout, writer)
-	myLogger = log.With(log.NewStdLogger(multiWriter),
-		"ts", log.DefaultTimestamp,
+
+	writeSyncer := zapcore.AddSync(writer)
+	encoderConfig := zap.NewProductionEncoderConfig()
+	encoderConfig.EncodeTime = timeEncoder
+	encoder := zapcore.NewJSONEncoder(encoderConfig)
+	core := zapcore.NewCore(encoder, writeSyncer, zapcore.InfoLevel)
+	z := zap.New(core)
+	logger := kratoszap.NewLogger(z)
+
+	myLogger = log.With(logger,
 		"caller", log.Caller(5),
 	)
 	log.SetLogger(myLogger)

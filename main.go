@@ -9,13 +9,13 @@ import (
 	"github.com/go-kratos/kratos/v2/transport/http"
 	"github.com/gorilla/handlers"
 	"go.opentelemetry.io/otel"
-	sdktrace "go.opentelemetry.io/otel/sdk/trace"
+	"go.opentelemetry.io/otel/sdk/trace"
 )
 
 func main() {
 	conf.DefaultInit()
 
-	tp := sdktrace.NewTracerProvider()
+	tp := trace.NewTracerProvider()
 	otel.SetTracerProvider(tp)
 
 	r := router.RoutersInit()
