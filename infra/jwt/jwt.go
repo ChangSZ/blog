@@ -5,11 +5,12 @@ import (
 	"errors"
 	"time"
 
-	"github.com/ChangSZ/blog/infra/conf"
-	"github.com/ChangSZ/blog/infra/log"
-	"github.com/ChangSZ/blog/infra/utils"
+	"github.com/ChangSZ/golib/log"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/go-redis/redis"
+
+	"github.com/ChangSZ/blog/infra/conf"
+	"github.com/ChangSZ/blog/infra/utils"
 )
 
 type JwtParam struct {

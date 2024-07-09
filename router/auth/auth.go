@@ -5,16 +5,17 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/ChangSZ/blog/common"
-	"github.com/ChangSZ/blog/conf"
-	"github.com/ChangSZ/blog/infra/gin/api"
-	"github.com/ChangSZ/blog/infra/jwt"
-	"github.com/ChangSZ/blog/infra/log"
-	"github.com/ChangSZ/blog/service"
+	"github.com/ChangSZ/golib/log"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis"
 	"github.com/mojocn/base64Captcha"
 	"golang.org/x/crypto/bcrypt"
+
+	"github.com/ChangSZ/blog/common"
+	"github.com/ChangSZ/blog/conf"
+	"github.com/ChangSZ/blog/infra/gin/api"
+	"github.com/ChangSZ/blog/infra/jwt"
+	"github.com/ChangSZ/blog/service"
 )
 
 type ConsoleAuth interface {

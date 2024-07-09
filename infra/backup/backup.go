@@ -3,12 +3,15 @@ package backup
 import (
 	"time"
 
+	"github.com/ChangSZ/golib/log"
+	"github.com/robfig/cron"
+
+	"github.com/ChangSZ/golib/zip"
+
+	"github.com/ChangSZ/golib/mail"
+
 	"github.com/ChangSZ/blog/infra/conf"
 	"github.com/ChangSZ/blog/infra/conn"
-	"github.com/ChangSZ/blog/infra/log"
-	"github.com/ChangSZ/blog/infra/mail"
-	"github.com/ChangSZ/blog/infra/zip"
-	"github.com/robfig/cron"
 )
 
 func (bp *BackUpParam) SetFiles(files ...string) *BackUpParam {
@@ -96,11 +99,9 @@ func (bp *BackUpParam) doBackUp() {
 		log.Errorf("back up compress is error: %v", err)
 		return
 	}
-	err = bp.Ep.SendMail()
-	//fmt.Println(bp.Ep.Attaches,bp.Ep.Subject,bp.Ep.Body)
+	err = bp.Ep.Send()
 	if err != nil {
 		log.Errorf("back up send mail is error: %v", err)
 		return
 	}
-	return
 }

@@ -4,9 +4,10 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/ChangSZ/blog/infra/log"
-	"github.com/ChangSZ/blog/infra/mail"
+	"github.com/ChangSZ/golib/log"
 	"github.com/go-errors/errors"
+
+	"github.com/ChangSZ/golib/mail"
 )
 
 // Define AlarmType to string
@@ -129,7 +130,7 @@ func Alarm(content string) {
 				log.Error("邮件接收者不能为空")
 				break
 			}
-			err = mail.SendMail(string(alarmParam.MailTo), "报警", content)
+			err = mail.Send([]string{string(alarmParam.MailTo)}, "报警", content)
 			break
 		case AlarmTypeWechat:
 			break

@@ -5,11 +5,12 @@ import (
 	"encoding/json"
 	"time"
 
+	"github.com/ChangSZ/golib/log"
+	"github.com/go-redis/redis"
+
 	"github.com/ChangSZ/blog/common"
 	"github.com/ChangSZ/blog/conf"
-	"github.com/ChangSZ/blog/infra/log"
 	"github.com/ChangSZ/blog/model"
-	"github.com/go-redis/redis"
 )
 
 func GetSystemList(ctx context.Context) (system *model.Systems, err error) {

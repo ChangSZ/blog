@@ -3,19 +3,21 @@ package conf
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
+
+	"github.com/ChangSZ/golib/log"
+	"github.com/ChangSZ/golib/mail"
+	"github.com/go-redis/redis"
+	"github.com/speps/go-hashids"
+	"gopkg.in/yaml.v2"
+	"gorm.io/gorm"
 
 	"github.com/ChangSZ/blog/infra/alarm"
 	"github.com/ChangSZ/blog/infra/backup"
 	"github.com/ChangSZ/blog/infra/conn"
 	"github.com/ChangSZ/blog/infra/hashid"
 	"github.com/ChangSZ/blog/infra/jwt"
-	"github.com/ChangSZ/blog/infra/log"
-	"github.com/ChangSZ/blog/infra/mail"
-	"github.com/go-redis/redis"
-	"github.com/speps/go-hashids"
-	"gopkg.in/yaml.v2"
-	"gorm.io/gorm"
 )
 
 var (
@@ -57,7 +59,7 @@ func CnfInit() {
 		MailUser:              "test@test.com",
 		MailPwd:               "",
 		MailHost:              "smtp.qq.com",
-		MailPort:              "587",
+		MailPort:              587,
 		HashIdSalt:            "i must add a salt what is only for me",
 		HashIdLength:          8,
 		JwtIss:                "blog",
@@ -171,11 +173,15 @@ func CnfInit() {
 
 	Cnf = cf
 	Env = env
-	return
 }
 
 func LoggerInit() {
-	log.Init(Cnf.LogFilePath, Cnf.LogRotateMaxDays)
+	logCfg := log.Config{
+		FilePath: Cnf.LogFilePath,
+		MaxDays:  Cnf.LogRotateMaxDays,
+		LogLevel: "INFO",
+	}
+	log.Init(logCfg)
 }
 
 func DbInit() {
@@ -191,7 +197,6 @@ func DbInit() {
 		log.Errorf("some errors: %v", err)
 		panic(err.Error())
 	}
-	return
 }
 
 func BackUpInit() {
@@ -205,16 +210,15 @@ func BackUpInit() {
 	data[time.Now().Format("2006-01-02")+".zip"] = dest
 	bp.Ep = MailClient
 	subject := time.Now().Format("2006-01-02") + "备份邮件"
-	bp.Ep.SetSubject(mail.EmailType(subject)).
+	bp.Ep.SetSubject(subject).
 		SetAttaches(data).
-		SetBody(mail.EmailType(
+		SetBody(
 			`<html><body>
 			<p><img src="https://golang.org/doc/gopher/doc.png"></p><br/>
 			<h1>日常备份</h1>
-			</body></html>`)).
-		SetTo(mail.EmailType(Cnf.BackUpSentTo))
+			</body></html>`).
+		SetTo(strings.Split(Cnf.BackUpSentTo, ","))
 	bp.Backup()
-	return
 }
 
 func AlarmInit() {
@@ -225,26 +229,21 @@ func AlarmInit() {
 	if err != nil {
 		log.Error(err)
 	}
-	return
 }
 
 func MailInit() {
-	m := new(mail.EmailParam)
-	mailUser := m.SetMailUser(mail.EmailType(Cnf.MailUser))
-	mailPwd := m.SetMailPwd(mail.EmailType(Cnf.MailPwd))
-	mailHost := m.SetMailHost(mail.EmailType(Cnf.MailHost))
-	mailPort := m.SetMailPort(mail.EmailType(Cnf.MailPort))
-	mails, err := m.MailInit(mailUser, mailPwd, mailHost, mailPort)
+	client, err := mail.Init(
+		mail.WithUser(Cnf.MailUser),
+		mail.WithPwd(Cnf.MailPwd),
+		mail.WithHost(Cnf.MailHost),
+		mail.WithPort(Cnf.MailPort))
 	if err != nil {
 		log.Error(err)
-	} else {
-		MailClient = mails
-		log.Info("begin to backup")
-		BackUpInit()
 		return
 	}
-	MailClient = mails
-	return
+	MailClient = client
+	log.Info("begin to backup")
+	BackUpInit()
 }
 
 func ZHashIdInit() {
@@ -256,7 +255,6 @@ func ZHashIdInit() {
 		log.Error(err)
 	}
 	ZHashId = zHashId
-	return
 }
 
 func RedisInit() {
@@ -270,7 +268,6 @@ func RedisInit() {
 		panic(err)
 	}
 	CacheClient = client
-	return
 }
 
 func JwtInit() {
@@ -282,5 +279,4 @@ func JwtInit() {
 	rc := jt.SetRedisCache(CacheClient)
 	tl := jt.SetTokenLife(time.Hour * time.Duration(Cnf.JwtTokenLife))
 	_ = jt.JwtInit(ad, jti, iss, sk, rc, tl)
-	return
 }

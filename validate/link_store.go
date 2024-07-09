@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gin-gonic/gin"
+
 	"github.com/ChangSZ/blog/common"
 	"github.com/ChangSZ/blog/infra/gin/api"
-	"github.com/gin-gonic/gin"
 )
 
 type LinkStoreV struct {

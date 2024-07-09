@@ -3,7 +3,7 @@ package api
 import (
 	"net/http"
 
-	"github.com/ChangSZ/blog/infra/log"
+	"github.com/ChangSZ/golib/log"
 	"github.com/astaxie/beego/validation"
 )
 

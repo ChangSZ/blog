@@ -1,8 +1,9 @@
 package api
 
 import (
-	"github.com/ChangSZ/blog/conf"
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/blog/conf"
 )
 
 type Gin struct {

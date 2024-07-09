@@ -1,9 +1,10 @@
 package conn
 
 import (
-	"github.com/ChangSZ/blog/infra/conf"
-	"github.com/ChangSZ/blog/infra/log"
+	"github.com/ChangSZ/golib/log"
 	"github.com/go-redis/redis"
+
+	"github.com/ChangSZ/blog/infra/conf"
 )
 
 type RedisClient struct {

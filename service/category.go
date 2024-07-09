@@ -6,12 +6,13 @@ import (
 	"errors"
 	"time"
 
-	"github.com/ChangSZ/blog/common"
-	"github.com/ChangSZ/blog/conf"
-	"github.com/ChangSZ/blog/infra/log"
-	"github.com/ChangSZ/blog/model"
+	"github.com/ChangSZ/golib/log"
 	"github.com/go-redis/redis"
 	"gorm.io/gorm"
+
+	"github.com/ChangSZ/blog/common"
+	"github.com/ChangSZ/blog/conf"
+	"github.com/ChangSZ/blog/model"
 )
 
 func GetCateById(ctx context.Context, cateId int) (cate *model.Categories, err error) {

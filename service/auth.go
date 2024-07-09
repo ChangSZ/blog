@@ -4,11 +4,12 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/ChangSZ/golib/log"
+	"golang.org/x/crypto/bcrypt"
+
 	"github.com/ChangSZ/blog/common"
 	"github.com/ChangSZ/blog/conf"
-	"github.com/ChangSZ/blog/infra/log"
 	"github.com/ChangSZ/blog/model"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func GetUserByEmail(ctx context.Context, email string) (user *model.Users, err error) {

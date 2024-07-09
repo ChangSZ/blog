@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/ChangSZ/blog/infra/log"
+	"github.com/ChangSZ/golib/log"
 	"github.com/gin-gonic/gin"
 )
 

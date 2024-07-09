@@ -3,8 +3,9 @@ package service
 import (
 	"context"
 
+	"github.com/ChangSZ/golib/log"
+
 	"github.com/ChangSZ/blog/conf"
-	"github.com/ChangSZ/blog/infra/log"
 	"github.com/ChangSZ/blog/model"
 )
 

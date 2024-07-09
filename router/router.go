@@ -4,20 +4,18 @@ import (
 	"html/template"
 	"net/http"
 
+	"github.com/ChangSZ/golib/log"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+
 	"github.com/ChangSZ/blog/common"
 	"github.com/ChangSZ/blog/conf"
 	"github.com/ChangSZ/blog/infra/gin/api"
-	"github.com/ChangSZ/blog/infra/log"
 	"github.com/ChangSZ/blog/middleware"
 	"github.com/ChangSZ/blog/router/auth"
 	"github.com/ChangSZ/blog/router/console"
 	"github.com/ChangSZ/blog/router/index"
 	"github.com/ChangSZ/blog/validate"
-	"github.com/gin-gonic/gin"
-	kgin "github.com/go-kratos/gin"
-	"github.com/go-kratos/kratos/v2/middleware/logging"
-	"github.com/go-kratos/kratos/v2/middleware/recovery"
-	"github.com/go-kratos/kratos/v2/middleware/tracing"
 )
 
 func RoutersInit() *gin.Engine {
@@ -26,10 +24,31 @@ func RoutersInit() *gin.Engine {
 	} else {
 		gin.SetMode(gin.DebugMode)
 	}
-	r := gin.New()
+	r := gin.Default()
 
-	r.Use(kgin.Middlewares(recovery.Recovery(), tracing.Server(), logging.Server(log.GetLoggerWithTrace()), middleware.AddTraceCtx))
-	r.Use(middleware.CheckExist())
+	// 配置 CORS 中间件
+	config := cors.Config{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"GET", "POST", "OPTIONS", "PUT", "DELETE", "UPDATE"},
+		AllowHeaders: []string{"Origin", "Content-Type", "Content-Length", "Accept-Encoding",
+			"X-CSRF-Token", "Authorization", "X-Auth-Token", "X-Auth-UUID", "X-Auth-Openid",
+			"referrer", "Authorization", "x-client-id", "x-client-version", "x-client-type"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}
+
+	r.Use(
+		cors.New(config),
+		middleware.Tracing("blog"),
+		middleware.AccessLog(log.GetLoggerWithTrace()),
+		middleware.CheckExist(),
+	)
+
+	// 设置可信代理
+	err := r.SetTrustedProxies([]string{"127.0.0.1"})
+	if err != nil {
+		panic(err)
+	}
 
 	r.Static("/static/uploads/images/", "./static/uploads/images/")
 	consolePost := console.NewPost()

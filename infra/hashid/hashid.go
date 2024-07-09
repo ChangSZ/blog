@@ -1,9 +1,10 @@
 package hashid
 
 import (
-	"github.com/ChangSZ/blog/infra/conf"
-	"github.com/ChangSZ/blog/infra/log"
+	"github.com/ChangSZ/golib/log"
 	"github.com/speps/go-hashids"
+
+	"github.com/ChangSZ/blog/infra/conf"
 )
 
 type HashIdParams struct {

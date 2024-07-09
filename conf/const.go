@@ -23,7 +23,7 @@ type Conf struct {
 	MailUser  string `yaml:"MailUser"`
 	MailPwd   string `yaml:"MailPwd"`
 	MailHost  string `yaml:"MailHost"`
-	MailPort  string `yaml:"MailPort"`
+	MailPort  int    `yaml:"MailPort"`
 
 	HashIdSalt   string `yaml:"HashIdSalt"`
 	HashIdLength int    `yaml:"HashIdLength"`
