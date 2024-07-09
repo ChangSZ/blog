@@ -2,15 +2,14 @@ package router
 
 import (
 	"html/template"
-	"net/http"
 
+	"github.com/ChangSZ/golib/gin/md"
 	"github.com/ChangSZ/golib/log"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
 	"github.com/ChangSZ/blog/common"
 	"github.com/ChangSZ/blog/conf"
-	"github.com/ChangSZ/blog/infra/gin/api"
 	"github.com/ChangSZ/blog/middleware"
 	"github.com/ChangSZ/blog/router/auth"
 	"github.com/ChangSZ/blog/router/console"
@@ -39,8 +38,8 @@ func RoutersInit() *gin.Engine {
 
 	r.Use(
 		cors.New(config),
-		middleware.Tracing("blog"),
-		middleware.AccessLog(log.GetLoggerWithTrace()),
+		md.Tracing("blog"),
+		md.AccessLog(log.GetLoggerWithTrace()),
 		middleware.CheckExist(),
 	)
 
@@ -156,10 +155,4 @@ func RoutersInit() *gin.Engine {
 		})
 	}
 	return r
-}
-
-func recoverHandler(ctx *gin.Context, err interface{}) {
-	apiG := api.Gin{C: ctx}
-	apiG.Response(http.StatusOK, 400000000, []string{})
-	return
 }
