@@ -45,16 +45,16 @@
 
 ### 启动方式2：Docker启动
 ```bash
-   docker build -f .\Dockerfile -t blog:v0.0.1 .
+   docker build -f .\Dockerfile -t blog:v0.0.2 .
 
    # 可导出镜像
-   docker save -o blog.tar blog:v0.0.1
+   docker save -o blog.tar blog:v0.0.2
 
    # 通过ftp上传至服务器，然后执行导入
    docker load -i blog.tar
 
    # 运行
-   docker run -idt --name blog --network host blog:v0.0.1
+   docker run -idt --name blog --network host blog:v0.0.2
 
    # 然后访问http://服务器IP:8081
 ```
