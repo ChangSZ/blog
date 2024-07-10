@@ -16,8 +16,6 @@ require (
 	github.com/robfig/cron v1.2.0
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/speps/go-hashids v2.0.0+incompatible
-	go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin v0.53.0
-	go.opentelemetry.io/otel v1.28.0
 	golang.org/x/crypto v0.25.0
 	gopkg.in/yaml.v2 v2.4.0
 )
@@ -34,6 +32,8 @@ require (
 	github.com/lestrrat-go/strftime v1.0.6 // indirect
 	github.com/onsi/gomega v1.27.10 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin v0.53.0 // indirect
+	go.opentelemetry.io/otel v1.28.0 // indirect
 	go.opentelemetry.io/otel/metric v1.28.0 // indirect
 	go.opentelemetry.io/otel/trace v1.28.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
@@ -65,7 +65,7 @@ require (
 	github.com/shiena/ansicolor v0.0.0-20230509054315-a9deabde6e02 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.12 // indirect
-	go.opentelemetry.io/otel/sdk v1.28.0
+	go.opentelemetry.io/otel/sdk v1.28.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
 	golang.org/x/arch v0.8.0 // indirect
 	golang.org/x/image v0.13.0 // indirect

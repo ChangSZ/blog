@@ -60,5 +60,16 @@
 ```
 </br>
 
- ## nginx部署
- 参考nginx.conf配置及说明
+ ## 线上部署
+1. `env.prod.yaml` 配置文件填写
+2. 启动
+ ```bash
+   # 参考启动方式2, 将blog镜像构建并上传至服务器（当然也可以自己在服务器上构建）
+   # 启动中间件
+   docker-compose -f deploy/docker-compose-env.yml up -d
+   
+   # 启动app
+   docker-compose -f deploy/docker-compose-app.yml up -d
+ ```
+3. 修改nginx.conf、dist（比如[博客管理后台](https://github.com/ChangSZ/blog-admin)）等
+4. 可以重启下nginx

@@ -1,0 +1,25 @@
+version: '3'
+services:
+  blog:
+    image: blog:v0.0.2
+    container_name: blog
+    ports:
+      - 8081:8081
+    environment:
+      - 'TZ="Asia/Shanghai"'
+    external_links:
+      - mysql:mysql
+      - redis:redis
+  nginx:
+    image: nginx:1.27.0
+    container_name: nginx
+    volumes:
+      - ~/mydata/nginx/conf/conf.d:/etc/nginx/conf.d
+      - ~/mydata/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ~/mydata/nginx/html:/etc/nginx/html
+      - ~/mydata/nginx/dist:/etc/nginx/dist
+      - ~/mydata/nginx/logs:/var/log/nginx
+    ports:
+      - 80:80
+    environment:
+      - 'TZ="Asia/Shanghai"'
