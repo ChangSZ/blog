@@ -3,6 +3,8 @@ services:
   blog:
     image: blog:v0.0.2
     container_name: blog
+    volumes:
+      - ~/mydata/blog/images:/work/static/uploads/images
     ports:
       - 8081:8081
     environment:
