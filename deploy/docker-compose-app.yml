@@ -25,3 +25,6 @@ services:
       - /etc/localtime:/etc/localtime:ro
     ports:
       - 80:80
+    external_links:
+      - minio:minio
+      - blog:blog
