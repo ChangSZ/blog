@@ -218,10 +218,7 @@ func PostStore(ctx context.Context, ps common.PostStore, userId int) {
 	})
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
-		return
 	}
-
-	return
 }
 
 func PostDetail(ctx context.Context, postId int) (p *model.Posts, err error) {
@@ -242,7 +239,7 @@ func IndexPostDetailDao(ctx context.Context, postId int) (postDetail common.Inde
 		return
 	}
 	if post.ID <= 0 {
-		return postDetail, errors.New("Post do not exists ")
+		return postDetail, errors.New("post do not exists ")
 	}
 	Post := common.IndexPost{
 		Id:        post.ID,
@@ -475,9 +472,7 @@ func PostUpdate(ctx context.Context, postId int, ps common.PostStore) {
 	})
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
-		return
 	}
-	return
 }
 
 func PostDestroy(ctx context.Context, postId int) (bool, error) {
@@ -486,6 +481,9 @@ func PostDestroy(ctx context.Context, postId int) (bool, error) {
 	timeLayout := time.RFC3339
 	loc, _ := time.LoadLocation("Local")
 	theTime, err := time.ParseInLocation(timeLayout, toBeCharge, loc)
+	if err != nil {
+		return false, err
+	}
 	post.DeletedAt = &theTime
 	post.ID = postId
 	err = conf.SqlServer.WithContext(ctx).Updates(post).Error

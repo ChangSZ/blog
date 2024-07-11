@@ -45,7 +45,9 @@
 
 ### 启动方式2：Docker启动
 ```bash
-   docker build -f .\Dockerfile -t blog:v0.0.2 .
+   docker build -t blog:v0.0.2 -f Dockerfile .
+   # 服务器与编译机架构不一致的, 需要交叉编译, 下面举例amd64
+   docker build --platform=linux/amd64  -t blog:v0.0.2  -f Dockerfile . 
 
    # 可导出镜像
    docker save -o blog.tar blog:v0.0.2

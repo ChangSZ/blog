@@ -98,7 +98,6 @@ func (h *HomeStatistics) Index(ctx *gin.Context) {
 	}
 	data = append(data, qcnt)
 	appG.Response(http.StatusOK, 0, data)
-	return
 }
 
 type Res struct {

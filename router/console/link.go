@@ -43,7 +43,6 @@ func (l *Link) Index(ctx *gin.Context) {
 	data["page"] = common.MyPaginate(cnt, limit, queryPageInt)
 
 	appG.Response(http.StatusOK, 0, data)
-	return
 }
 
 func (l *Link) Create(ctx *gin.Context) {}
@@ -70,7 +69,6 @@ func (l *Link) Store(ctx *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, 0, nil)
-	return
 }
 
 func (l *Link) Edit(ctx *gin.Context) {
@@ -90,7 +88,6 @@ func (l *Link) Edit(ctx *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, 0, link)
-	return
 }
 
 func (l *Link) Update(ctx *gin.Context) {
@@ -123,7 +120,6 @@ func (l *Link) Update(ctx *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, 0, nil)
-	return
 }
 
 func (l *Link) Destroy(ctx *gin.Context) {
@@ -144,5 +140,4 @@ func (l *Link) Destroy(ctx *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, 0, nil)
-	return
 }

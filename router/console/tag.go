@@ -44,7 +44,6 @@ func (t *Tag) Index(ctx *gin.Context) {
 	data["page"] = common.MyPaginate(count, limit, queryPageInt)
 
 	appG.Response(http.StatusOK, 0, data)
-	return
 }
 
 func (t *Tag) Create(ctx *gin.Context) {}
@@ -71,7 +70,6 @@ func (t *Tag) Store(ctx *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, 0, nil)
-	return
 }
 
 func (t *Tag) Edit(ctx *gin.Context) {
@@ -90,7 +88,6 @@ func (t *Tag) Edit(ctx *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, 0, tagData)
-	return
 }
 
 func (t *Tag) Update(ctx *gin.Context) {
@@ -121,7 +118,6 @@ func (t *Tag) Update(ctx *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, 0, nil)
-	return
 }
 
 func (t *Tag) Destroy(ctx *gin.Context) {
@@ -142,5 +138,4 @@ func (t *Tag) Destroy(ctx *gin.Context) {
 	}
 	service.DelTagRel(ctx, tagIdInt)
 	appG.Response(http.StatusOK, 0, nil)
-	return
 }

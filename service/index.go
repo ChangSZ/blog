@@ -310,9 +310,7 @@ func PostViewAdd(ctx context.Context, postIdStr string) {
 		Error
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
-		return
 	}
-	return
 }
 
 func PostArchives(ctx context.Context) (archivesList map[string][]*model.Posts, err error) {

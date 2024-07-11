@@ -5,13 +5,14 @@ services:
     container_name: blog
     volumes:
       - ~/mydata/blog/images:/work/static/uploads/images
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     ports:
       - 8081:8081
-    environment:
-      - 'TZ="Asia/Shanghai"'
     external_links:
       - mysql:mysql
       - redis:redis
+      - minio:minio
   nginx:
     image: nginx:1.27.0
     container_name: nginx
@@ -21,7 +22,6 @@ services:
       - ~/mydata/nginx/html:/etc/nginx/html
       - ~/mydata/nginx/dist:/etc/nginx/dist
       - ~/mydata/nginx/logs:/var/log/nginx
+      - /etc/localtime:/etc/localtime:ro
     ports:
       - 80:80
-    environment:
-      - 'TZ="Asia/Shanghai"'

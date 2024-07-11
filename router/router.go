@@ -55,6 +55,7 @@ func RoutersInit() *gin.Engine {
 	consoleTag := console.NewTag()
 	postImg := console.NewPostImg()
 	trash := console.NewTrash()
+	minio := console.NewMinio()
 	consoleSystem := console.NewHome()
 	consoleLink := console.NewLink()
 	consoleAuth := auth.NewAuth()
@@ -128,6 +129,10 @@ func RoutersInit() *gin.Engine {
 			authRegisterV := validate.NewValidate().NewAuthRegister.MyValidate()
 			ar.GET("/", consoleAuth.Register)
 			ar.POST("/", authRegisterV, consoleAuth.AuthRegister)
+		}
+		m := c.Group("/minio")
+		{
+			m.GET("/file", minio.GetFile)
 		}
 	}
 

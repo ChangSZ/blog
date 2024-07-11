@@ -28,3 +28,7 @@ type System interface {
 type Statistics interface {
 	Index(*gin.Context)
 }
+
+type MinioI interface {
+	GetFile(*gin.Context)
+}

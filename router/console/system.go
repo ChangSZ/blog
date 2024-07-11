@@ -33,7 +33,6 @@ func (s *Home) Index(ctx *gin.Context) {
 	data["system"] = system
 	log.WithTrace(ctx).Info(" Succeed to get system index ")
 	appG.Response(http.StatusOK, 0, data)
-	return
 }
 
 func (s *Home) Update(ctx *gin.Context) {
@@ -44,7 +43,6 @@ func (s *Home) Update(ctx *gin.Context) {
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		appG.Response(http.StatusOK, 500000000, nil)
-		return
 	}
 
 	requestJson, exists := ctx.Get("json")
@@ -67,5 +65,4 @@ func (s *Home) Update(ctx *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, 0, nil)
-	return
 }

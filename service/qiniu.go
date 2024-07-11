@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"mime/multipart"
 
 	"github.com/ChangSZ/golib/log"
 	"github.com/qiniu/go-sdk/v7/auth/qbox"
@@ -11,23 +12,19 @@ import (
 	"github.com/ChangSZ/blog/infra/alarm"
 )
 
-// 自定义返回值结构体
-type MyPutRet struct {
-	Key    string
-	Hash   string
-	Fsize  int
-	Bucket string
-	Name   string
+type QiniuService struct{}
+
+func NewQiniu() *QiniuService {
+	return &QiniuService{}
 }
 
 // Upload file to Qiniu
 // LocalFile is the local file, such as "./static/images/uploads/2.jpeg"
 // FileName is the name what  qiniu name as
 // The storage Zone is default
-func Qiniu(ctx context.Context, localFile string, fileName string) {
+func (s *QiniuService) Upload(ctx context.Context, file multipart.File, fileName string) error {
 	accessKey := conf.Cnf.QiNiuAccessKey
 	secretKey := conf.Cnf.QiNiuSecretKey
-	//localFile := "./static/images/uploads/2.jpeg"
 	bucket := conf.Cnf.QiNiuBucket
 	key := fileName
 	putPolicy := storage.PutPolicy{
@@ -62,13 +59,13 @@ func Qiniu(ctx context.Context, localFile string, fileName string) {
 			//"x:name": "github logo",
 		},
 	}
-	err := formUploader.PutFile(context.Background(), &ret, upToken, key, localFile, &putExtra)
+	err := formUploader.Put(context.Background(), &ret, upToken, key, file, -1, &putExtra)
 	if err != nil {
 		log.WithTrace(ctx).Errorf("文件上传七牛云失败, 文件名是：%v", fileName)
 		alarm.Alarm("文件上传七牛云失败, 文件名是" + fileName)
-		return
+		return err
 	}
 
 	log.WithTrace(ctx).Infof("文件上传七牛云成功, 文件名是：%v", fileName)
-	return
+	return nil
 }

@@ -109,7 +109,6 @@ func DelTagRel(ctx context.Context, tagId int) {
 	}
 
 	conf.CacheClient.Del(conf.Cnf.TagListKey)
-	return
 }
 
 func AllTags(ctx context.Context) ([]model.Tags, error) {

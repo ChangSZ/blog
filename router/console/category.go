@@ -27,7 +27,6 @@ func (cate *Category) Index(ctx *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, 0, cates)
-	return
 }
 
 func (cate *Category) Create(ctx *gin.Context) {}
@@ -55,7 +54,6 @@ func (cate *Category) Store(ctx *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, 0, nil)
-	return
 }
 
 func (cate *Category) Edit(ctx *gin.Context) {
@@ -75,7 +73,6 @@ func (cate *Category) Edit(ctx *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, 0, cateData)
-	return
 }
 
 func (cate *Category) Update(ctx *gin.Context) {
@@ -108,7 +105,6 @@ func (cate *Category) Update(ctx *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, 0, nil)
-	return
 }
 
 func (cate *Category) Destroy(ctx *gin.Context) {
@@ -143,5 +139,4 @@ func (cate *Category) Destroy(ctx *gin.Context) {
 
 	service.DelCateRel(ctx, cateIdInt)
 	appG.Response(http.StatusOK, 0, nil)
-	return
 }

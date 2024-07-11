@@ -46,7 +46,6 @@ func DelCateRel(ctx context.Context, cateId int) {
 		return
 	}
 	conf.CacheClient.Del(conf.Cnf.CateListKey)
-	return
 }
 
 func CateStore(ctx context.Context, cs common.CateStore) (bool, error) {
@@ -59,7 +58,7 @@ func CateStore(ctx context.Context, cs common.CateStore) (bool, error) {
 	}
 	if defaultCate.ID > 0 {
 		log.WithTrace(ctx).Errorf("Cate has exists,  ID=%v", defaultCate.ID)
-		return false, errors.New("Cate has exists ")
+		return false, errors.New("cate has exists ")
 	}
 
 	if cs.ParentId > 0 {
@@ -71,7 +70,7 @@ func CateStore(ctx context.Context, cs common.CateStore) (bool, error) {
 		}
 		if cate.ID <= 0 {
 			log.WithTrace(ctx).Error("The parent id has not data")
-			return false, errors.New("The parent id has not data ")
+			return false, errors.New("the parent id has not data ")
 		}
 	}
 
@@ -109,7 +108,7 @@ func CateUpdate(ctx context.Context, cateId int, cs common.CateStore) (bool, err
 		_, res2, _ := GetSimilar(ctx, ids, resIds, 0)
 		for _, v := range res2 {
 			if v == cs.ParentId {
-				return false, errors.New("Can not be you child node ")
+				return false, errors.New("can not be you child node ")
 			}
 		}
 	}
@@ -272,18 +271,10 @@ func tree(ctx context.Context, cate []common.Category, parent int, level int, ke
 			}
 			v.Html = newHtml + common.GoRepeat(html, level)
 			data = append(data, v)
-			data = merge(data, tree(ctx, cate, Id, level+1, key+1))
+			data = append(data, tree(ctx, cate, Id, level+1, key+1)...)
 		}
 	}
 	return data
-}
-
-// merge two arr
-func merge(arr1 []common.Category, arr2 []common.Category) []common.Category {
-	for _, val := range arr2 {
-		arr1 = append(arr1, val)
-	}
-	return arr1
 }
 
 // Get all cate

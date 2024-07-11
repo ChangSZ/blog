@@ -46,6 +46,13 @@ type Conf struct {
 	ImgUploadUrl          string `yaml:"ImgUploadUrl"`
 	ImgUploadDst          string `yaml:"ImgUploadDst"`
 
+	// minio
+	MinioUploadImg  bool   `yaml:"MinioUploadImg"`
+	MinioEndpoint   string `yaml:"MinioEndpoint"`
+	MinioBucketName string `yaml:"MinioBucketName"`
+	MinioAccessKey  string `yaml:"MinioAccessKey"`
+	MinioSecretKey  string `yaml:"MinioSecretKey"`
+
 	//qiniu
 	QiNiuUploadImg bool   `yaml:"QiNiuUploadImg"`
 	QiNiuHostName  string `yaml:"QiNiuHostName"`

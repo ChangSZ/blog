@@ -51,13 +51,17 @@ func (p *Post) Index(ctx *gin.Context) {
 		return
 	}
 	postCount, err := service.ConsolePostCount(ctx, limit, offset, false)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		appG.Response(http.StatusOK, 500000000, nil)
+		return
+	}
 
 	data := make(map[string]interface{})
 	data["list"] = postList
 	data["page"] = common.MyPaginate(postCount, limit, queryPageInt)
 
 	appG.Response(http.StatusOK, 0, data)
-	return
 }
 
 func (p *Post) Create(ctx *gin.Context) {
@@ -79,7 +83,6 @@ func (p *Post) Create(ctx *gin.Context) {
 	data["tags"] = tags
 	data["imgUploadUrl"] = conf.Cnf.ImgUploadUrl
 	appG.Response(http.StatusOK, 0, data)
-	return
 }
 
 func (p *Post) Store(ctx *gin.Context) {
@@ -107,7 +110,6 @@ func (p *Post) Store(ctx *gin.Context) {
 
 	service.PostStore(ctx, ps, userId.(int))
 	appG.Response(http.StatusOK, 0, nil)
-	return
 }
 
 func (p *Post) Edit(ctx *gin.Context) {
@@ -160,7 +162,6 @@ func (p *Post) Edit(ctx *gin.Context) {
 	data["tags"] = tags
 	data["imgUploadUrl"] = conf.Cnf.ImgUploadUrl
 	appG.Response(http.StatusOK, 0, data)
-	return
 }
 
 func (p *Post) Update(ctx *gin.Context) {
@@ -189,7 +190,6 @@ func (p *Post) Update(ctx *gin.Context) {
 	}
 	service.PostUpdate(ctx, postIdInt, ps)
 	appG.Response(http.StatusOK, 0, nil)
-	return
 }
 
 func (p *Post) Destroy(ctx *gin.Context) {
@@ -210,7 +210,6 @@ func (p *Post) Destroy(ctx *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, 0, nil)
-	return
 }
 
 func (p *Post) TrashIndex(ctx *gin.Context) {
@@ -233,13 +232,16 @@ func (p *Post) TrashIndex(ctx *gin.Context) {
 		return
 	}
 	postCount, err := service.ConsolePostCount(ctx, limit, offset, true)
-
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		appG.Response(http.StatusOK, 500000000, nil)
+		return
+	}
 	data := make(map[string]interface{})
 	data["list"] = postList
 	data["page"] = common.MyPaginate(postCount, limit, queryPageInt)
 
 	appG.Response(http.StatusOK, 0, data)
-	return
 }
 
 func (p *Post) UnTrash(ctx *gin.Context) {
@@ -259,7 +261,6 @@ func (p *Post) UnTrash(ctx *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, 0, nil)
-	return
 }
 
 func (p *Post) ImgUpload(ctx *gin.Context) {
@@ -285,8 +286,33 @@ func (p *Post) ImgUpload(ctx *gin.Context) {
 
 		filename := fileHeader.Filename
 
+		// 优先上传minio
+		if conf.Cnf.MinioUploadImg {
+			url, err := service.NewMinio().Upload(ctx, file, fileHeader.Filename)
+			if err != nil {
+				errFiles = append(errFiles, filename)
+				log.WithTrace(ctx).Errorf("上传文件(%v)至minio失败: %v", filename, err)
+				continue
+			}
+			succMap[filename] = url
+			continue
+		}
+
 		// 为文件生成唯一的名称，可以使用时间戳或其他方法
 		saveName := strings.RandString(5) + "_" + filename
+		// 再者选择七牛, 只能从本地文件读
+		if conf.Cnf.QiNiuUploadImg {
+			err := service.NewQiniu().Upload(ctx, file, saveName)
+			if err != nil {
+				errFiles = append(errFiles, filename)
+				log.WithTrace(ctx).Errorf("上传文件(%v)至qiniu失败: %v", filename, err)
+				continue
+			}
+			succMap[filename] = conf.Cnf.QiNiuHostName + saveName
+			continue
+		}
+
+		// 会存到本地
 		savePath := conf.Cnf.ImgUploadDst + saveName
 		out, err := os.Create(savePath)
 		if err != nil {
@@ -300,13 +326,6 @@ func (p *Post) ImgUpload(ctx *gin.Context) {
 			errFiles = append(errFiles, filename)
 			continue
 		}
-
-		if conf.Cnf.QiNiuUploadImg {
-			go service.Qiniu(ctx, savePath, saveName)
-			succMap[filename] = conf.Cnf.QiNiuHostName + saveName
-			continue
-		}
-
 		succMap[filename] = conf.Cnf.AppImgUrl + saveName
 	}
 
@@ -316,5 +335,4 @@ func (p *Post) ImgUpload(ctx *gin.Context) {
 	}
 
 	appG.Response(http.StatusOK, 0, data)
-	return
 }
