@@ -9,3 +9,5 @@
 __debug*
 
 /static/uploads/images
+
+**.DS_Store

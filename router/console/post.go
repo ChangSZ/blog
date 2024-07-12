@@ -284,11 +284,12 @@ func (p *Post) ImgUpload(ctx *gin.Context) {
 		}
 		defer file.Close()
 
-		filename := fileHeader.Filename
+		// 为文件生成唯一的名称，可以使用时间戳或其他方法
+		filename := strings.RandString(10) + "_" + fileHeader.Filename
 
 		// 优先上传minio
 		if conf.Cnf.MinioUploadImg {
-			url, err := service.NewMinio().Upload(ctx, file, fileHeader.Filename)
+			url, err := service.NewMinio().Upload(ctx, file, filename)
 			if err != nil {
 				errFiles = append(errFiles, filename)
 				log.WithTrace(ctx).Errorf("上传文件(%v)至minio失败: %v", filename, err)
@@ -298,22 +299,20 @@ func (p *Post) ImgUpload(ctx *gin.Context) {
 			continue
 		}
 
-		// 为文件生成唯一的名称，可以使用时间戳或其他方法
-		saveName := strings.RandString(5) + "_" + filename
 		// 再者选择七牛, 只能从本地文件读
 		if conf.Cnf.QiNiuUploadImg {
-			err := service.NewQiniu().Upload(ctx, file, saveName)
+			err := service.NewQiniu().Upload(ctx, file, filename)
 			if err != nil {
 				errFiles = append(errFiles, filename)
 				log.WithTrace(ctx).Errorf("上传文件(%v)至qiniu失败: %v", filename, err)
 				continue
 			}
-			succMap[filename] = conf.Cnf.QiNiuHostName + saveName
+			succMap[filename] = conf.Cnf.QiNiuHostName + filename
 			continue
 		}
 
 		// 会存到本地
-		savePath := conf.Cnf.ImgUploadDst + saveName
+		savePath := conf.Cnf.ImgUploadDst + filename
 		out, err := os.Create(savePath)
 		if err != nil {
 			errFiles = append(errFiles, filename)
@@ -326,7 +325,7 @@ func (p *Post) ImgUpload(ctx *gin.Context) {
 			errFiles = append(errFiles, filename)
 			continue
 		}
-		succMap[filename] = conf.Cnf.AppImgUrl + saveName
+		succMap[filename] = conf.Cnf.AppImgUrl + filename
 	}
 
 	data := map[string]interface{}{
