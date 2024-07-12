@@ -2,22 +2,64 @@
     <link rel="stylesheet" href="{{.themeShareCss}}/share.min.css" type="text/css">
     <script src="{{.themeShareJs}}/qrcode.js"></script>
 
+    <style>
+        .post-meta-wrapper {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .post-meta {
+            display: block;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .post-meta time {
+            margin-right: 5px;
+        }
+
+        .post-meta .meta-category {
+            margin-right: 5px;
+            color: #666;
+        }
+
+        .post-meta a.tag {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            padding: 3px 6px;
+            font-size: 12px;
+            background-color: #fff;
+            color: #5094d5;
+            border: 1px solid #eaeaef;
+            height: 24px;
+            line-height: 17px;
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+        .post-meta a.tag:hover {
+            background-color: #286090;
+            border-color: #204d74;
+        }
+    </style>
     <section id="intro">
         <div class="container post-detail">
-            <div class="row col-md-offset-2">
-                <div class="col-md-8">
-                    <span class="post-meta">
-                        <time datetime="{{.post.Post.CreatedAt}}" itemprop="datePublished">
-                            {{.post.Post.CreatedAt}}
-                        </time>
-                        |
-                        {{range $k,$v := .post.Tags}}
-                            <a href='../../tags/{{$v.Name}}'>{{$v.DisplayName}}</a>,
-                        {{end}}
-                    </span>
-                    <h1>{{ .post.Post.Title}}</h1>
+            <div class="row col-md-8 col-md-offset-2">
+                    <h1 style="font-weight: bold; color: #333;">{{ .post.Post.Title }}</h1>
+                    <div class="post-meta-wrapper">
+                        <span class="post-meta">
+                            <time datetime="{{.post.Post.CreatedAt}}" itemprop="datePublished">
+                                {{.post.Post.CreatedAt}}
+                            </time>
+                            |
+                            {{range $k,$v := .post.Tags}}
+                                <span class="meta-category"><a class="tag" href='../../tags/{{$v.Name}}'>{{$v.DisplayName}}</a></span>
+                            {{end}}
+                        </span>
                 </div>
             </div>
+
         <div class="col-md-8 col-md-offset-2">
             <!-- Separate container for markdown content -->
             <div id="markdown-content"></div>
