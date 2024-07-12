@@ -1,9 +1,6 @@
 {{define "detail"}}
-    <link rel="stylesheet" href="{{.themeHLightCss}}/darcula.css" type="text/css">
     <link rel="stylesheet" href="{{.themeShareCss}}/share.min.css" type="text/css">
     <script src="{{.themeShareJs}}/qrcode.js"></script>
-    <script src="{{.themeHLightJs}}/highlight.pack.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
 
     <section id="intro">
         <div class="container post-detail">
@@ -23,7 +20,6 @@
             </div>
         <div class="col-md-8 col-md-offset-2">
             <!-- Separate container for markdown content -->
-            <div class="clearfix"></div>
             <div id="markdown-content"></div>
             <div class="clearfix"></div>
             <hr class="nogutter">

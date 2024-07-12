@@ -32,8 +32,6 @@ func CommonData(ctx context.Context) (h gin.H, err error) {
 		"themeImg":         conf.Cnf.ThemeImg,
 		"themeFancyboxCss": conf.Cnf.ThemeFancyboxCss,
 		"themeFancyboxJs":  conf.Cnf.ThemeFancyboxJs,
-		"themeHLightCss":   conf.Cnf.ThemeHLightCss,
-		"themeHLightJs":    conf.Cnf.ThemeHLightJs,
 		"themeShareCss":    conf.Cnf.ThemeShareCss,
 		"themeShareJs":     conf.Cnf.ThemeShareJs,
 		"themeArchivesJs":  conf.Cnf.ThemeArchivesJs,

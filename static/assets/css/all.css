@@ -1149,7 +1149,7 @@ address,blockquote .small,blockquote footer,blockquote small,dd,dt,pre{
 .text-capitalize{
     text-transform:capitalize
 }
-.initialism,h2{
+.initialism{
     text-transform:uppercase
 }
 .text-muted{
@@ -1331,7 +1331,6 @@ kbd kbd{
 pre{
     padding:4.5px;
     margin:0 0 10px;
-    font-size:15px;
     word-break:break-all;
     word-wrap:break-word;
     background-color:#f5f5f5;
@@ -1374,7 +1373,6 @@ pre code{
     position:relative;
     min-height:1px;
     padding-right:15px;
-    padding-left:15px
 }
 .col-xs-12{
     width:100%
@@ -5290,7 +5288,6 @@ body,p{
     color:#666;
     font-weight:400;
     font-size:14px;
-    font-family:"Open Sans","Helvetica Neue",Helvetica,"Hiragino Sans GB","Microsoft YaHei","Source Han Sans CN","WenQuanYi Micro Hei",Arial,sans-serif;
     font-style:normal;
     line-height:30px
 }
@@ -7918,9 +7915,6 @@ body{
     font-style:normal;
     font-weight:400;
     src:local('Open Sans Regular'),local('OpenSans-Regular'),url(../fonts/opensans.woff) format('woff')
-}
-*{
-    font-family:"Open Sans","Helvetica Neue",Helvetica,"Hiragino Sans GB","Microsoft YaHei","Source Han Sans CN","WenQuanYi Micro Hei",Arial,sans-serif
 }
 .pace{
     -webkit-pointer-events:none;

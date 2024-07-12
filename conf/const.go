@@ -103,8 +103,6 @@ type Conf struct {
 	ThemeImg         string `yaml:"ThemeImg"`
 	ThemeFancyboxCss string `yaml:"ThemeFancyboxCss"`
 	ThemeFancyboxJs  string `yaml:"ThemeFancyboxJs"`
-	ThemeHLightCss   string `yaml:"ThemeHLightCss"`
-	ThemeHLightJs    string `yaml:"ThemeHLightJs"`
 	ThemeShareCss    string `yaml:"ThemeShareCss"`
 	ThemeShareJs     string `yaml:"ThemeShareJs"`
 	ThemeArchivesJs  string `yaml:"ThemeArchivesJs"`

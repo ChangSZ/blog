@@ -114,8 +114,6 @@ func CnfInit() {
 		ThemeImg:              "/static/assets/img",
 		ThemeFancyboxCss:      "/static/assets/fancybox",
 		ThemeFancyboxJs:       "/static/assets/fancybox",
-		ThemeHLightCss:        "/static/assets/highlightjs",
-		ThemeHLightJs:         "/static/assets/highlightjs",
 		ThemeShareCss:         "/static/assets/css",
 		ThemeShareJs:          "/static/assets/js",
 		ThemeArchivesJs:       "/static/assets/js",
