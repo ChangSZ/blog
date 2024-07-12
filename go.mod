@@ -10,11 +10,9 @@ require (
 	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/gorilla/feeds v1.1.1
-	github.com/microcosm-cc/bluemonday v1.0.26
 	github.com/mojocn/base64Captcha v1.3.5
 	github.com/qiniu/go-sdk/v7 v7.18.2
 	github.com/robfig/cron v1.2.0
-	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/speps/go-hashids v2.0.0+incompatible
 	golang.org/x/crypto v0.25.0
 	gopkg.in/yaml.v2 v2.4.0
@@ -48,7 +46,6 @@ require (
 
 require (
 	github.com/ChangSZ/golib v1.0.1
-	github.com/aymerick/douceur v0.2.0 // indirect
 	github.com/bytedance/sonic v1.11.9 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.4 // indirect
 	github.com/gin-contrib/cors v1.7.2
@@ -58,7 +55,6 @@ require (
 	github.com/go-playground/validator/v10 v10.22.0 // indirect
 	github.com/goccy/go-json v0.10.3 // indirect
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
-	github.com/gorilla/css v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.8 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect

@@ -61,7 +61,6 @@ type ConsolePost struct {
 	UserId    int       `json:"userId,omitempty"`
 	Title     string    `json:"title,omitempty"`
 	Summary   string    `json:"summary,omitempty"`
-	Original  string    `json:"original,omitempty"`
 	Content   string    `json:"content,omitempty"`
 	Password  string    `json:"password,omitempty"`
 	DeletedAt time.Time `json:"deletedAt,omitempty"`
@@ -118,17 +117,16 @@ type Paginate struct {
 }
 
 type IndexPost struct {
-	Id        int           `json:"id,omitempty"`
-	Uid       string        `json:"uid,omitempty"`
-	UserId    int           `json:"userId,omitempty"`
-	Title     string        `json:"title,omitempty"`
-	Summary   string        `json:"summary,omitempty"`
-	Original  string        `json:"original,omitempty"`
-	Content   template.HTML `json:"content,omitempty"`
-	Password  string        `json:"password,omitempty"`
-	DeletedAt time.Time     `json:"deletedAt,omitempty"`
-	CreatedAt time.Time     `json:"createdAt,omitempty"`
-	UpdatedAt time.Time     `json:"updatedAt,omitempty"`
+	Id        int       `json:"id,omitempty"`
+	Uid       string    `json:"uid,omitempty"`
+	UserId    int       `json:"userId,omitempty"`
+	Title     string    `json:"title,omitempty"`
+	Summary   string    `json:"summary,omitempty"`
+	Content   string    `json:"content,omitempty"`
+	Password  string    `json:"password,omitempty"`
+	DeletedAt time.Time `json:"deletedAt,omitempty"`
+	CreatedAt time.Time `json:"createdAt,omitempty"`
+	UpdatedAt time.Time `json:"updatedAt,omitempty"`
 }
 
 type IndexRss struct {

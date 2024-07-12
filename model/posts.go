@@ -10,7 +10,6 @@ type Posts struct {
 	UserID    int        `gorm:"column:user_id"`
 	Title     string     `gorm:"column:title"`
 	Summary   string     `gorm:"column:summary"`
-	Original  string     `gorm:"column:original"`
 	Content   string     `gorm:"column:content"`
 	Password  string     `gorm:"column:password"`
 	DeletedAt *time.Time `gorm:"column:deleted_at"`

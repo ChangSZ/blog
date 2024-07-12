@@ -3,13 +3,9 @@ package service
 import (
 	"context"
 	"errors"
-	"html/template"
-	"strings"
 	"time"
 
 	"github.com/ChangSZ/golib/log"
-	"github.com/microcosm-cc/bluemonday"
-	"github.com/russross/blackfriday/v2"
 	"gorm.io/gorm"
 
 	"github.com/ChangSZ/blog/common"
@@ -57,7 +53,6 @@ func ConsolePostIndex(ctx context.Context, limit int, offset int, isTrash bool) 
 			Uid:       post.UID,
 			Title:     post.Title,
 			Summary:   post.Summary,
-			Original:  post.Original,
 			Content:   post.Content,
 			Password:  post.Password,
 			CreatedAt: post.CreatedAt,
@@ -147,18 +142,11 @@ func PostView(ctx context.Context, postId int) (*model.PostViews, error) {
 
 func PostStore(ctx context.Context, ps common.PostStore, userId int) {
 	postCreate := &model.Posts{
-		Title:    ps.Title,
-		UserID:   userId,
-		Summary:  ps.Summary,
-		Original: ps.Content,
+		Title:   ps.Title,
+		UserID:  userId,
+		Summary: ps.Summary,
+		Content: ps.Content,
 	}
-
-	unsafe := blackfriday.Run([]byte(ps.Content))
-	policy := bluemonday.UGCPolicy()
-	policy.AllowStandardURLs()
-	policy.AllowAttrs("href").OnElements("a")
-	html := policy.SanitizeBytes(unsafe)
-	postCreate.Content = string(html)
 
 	var err error
 	err = conf.SqlServer.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
@@ -246,8 +234,7 @@ func IndexPostDetailDao(ctx context.Context, postId int) (postDetail common.Inde
 		Uid:       post.UID,
 		Title:     post.Title,
 		Summary:   post.Summary,
-		Original:  post.Original,
-		Content:   template.HTML(post.Content),
+		Content:   post.Content,
 		Password:  post.Password,
 		CreatedAt: post.CreatedAt,
 		UpdatedAt: post.UpdatedAt,
@@ -400,19 +387,12 @@ func PostCate(ctx context.Context, postId int) (int, error) {
 
 func PostUpdate(ctx context.Context, postId int, ps common.PostStore) {
 	postUpdate := &model.Posts{
-		Title:    ps.Title,
-		UserID:   1,
-		Summary:  ps.Summary,
-		Original: ps.Content,
+		ID:      postId,
+		Title:   ps.Title,
+		UserID:  1,
+		Summary: ps.Summary,
+		Content: ps.Content,
 	}
-
-	unsafe := blackfriday.Run([]byte(ps.Content))
-	policy := bluemonday.UGCPolicy()
-	policy.AllowStandardURLs()
-	policy.AllowAttrs("href").OnElements("a")
-	html := policy.SanitizeBytes(unsafe)
-	postUpdate.Content = strings.Replace(string(html), "&amp;", "&", -1) // 将 &amp; 转换为 &
-	postUpdate.ID = postId
 
 	var err error
 	err = conf.SqlServer.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
@@ -547,7 +527,6 @@ func PostTagList(ctx context.Context, tagId int, limit int, offset int) (postLis
 			Uid:       post.UID,
 			Title:     post.Title,
 			Summary:   post.Summary,
-			Original:  post.Original,
 			Content:   post.Content,
 			Password:  post.Password,
 			CreatedAt: post.CreatedAt,
@@ -598,7 +577,6 @@ func PostCateList(ctx context.Context, cateId int, limit int, offset int) (postL
 			Uid:       post.UID,
 			Title:     post.Title,
 			Summary:   post.Summary,
-			Original:  post.Original,
 			Content:   post.Content,
 			Password:  post.Password,
 			CreatedAt: post.CreatedAt,
