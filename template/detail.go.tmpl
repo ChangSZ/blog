@@ -127,23 +127,22 @@
         </div>
     </div>
     <!-- Insert marked and highlight.js scripts -->
-    <script src="{{.themeJs}}/marked.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+    <script src="{{.themeJs}}/vditor.index.min.js"></script>
     <script>
-        // Fetch and render the markdown content
         const markdownContent = {{ .post.Post.Content }};
-
-        const htmlContent = marked.parse(markdownContent, {
-            highlight: function(code, lang) {
-                const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-                return hljs.highlight(code, { language }).value;
-            }
-        });
-
-        document.getElementById('markdown-content').innerHTML = htmlContent;
-
-        document.querySelectorAll('pre code').forEach((block) => {
-            hljs.highlightElement(block);
+        Vditor.preview(document.getElementById('markdown-content'), markdownContent, {
+            markdown: {
+                toc: true,
+                emoji: true,
+                footnotes: true,
+                autoSpace: true,
+                codeBlockPreview: true,
+                math: true,
+                mermaid: true,
+                mindmap: true,
+                chart: true,
+                media: true,
+            },
         });
     </script>
 
