@@ -110,6 +110,7 @@ func RoutersInit() *gin.Engine {
 			link.DELETE("/:id", middleware.Permission("console.link.destroy"), consoleLink.Destroy)
 		}
 		c.DELETE("/logout", middleware.Permission("console.auth.logout"), consoleAuth.Logout)
+		c.POST("/refresh-token", consoleAuth.RefreshToken)
 		c.DELETE("/cache", middleware.Permission("console.auth.cache"), consoleAuth.DelCache)
 		h := c.Group("/home")
 		{

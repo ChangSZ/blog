@@ -25,9 +25,9 @@ type ConsoleAuth interface {
 	AuthLogin(*gin.Context)
 	Logout(*gin.Context)
 	DelCache(*gin.Context)
+	RefreshToken(ctx *gin.Context)
 }
-type Auth struct {
-}
+type Auth struct{}
 
 func NewAuth() ConsoleAuth {
 	return &Auth{}
@@ -79,7 +79,6 @@ func (c *Auth) Register(ctx *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, 0, nil)
-	return
 }
 
 func (c *Auth) AuthRegister(ctx *gin.Context) {
@@ -114,7 +113,6 @@ func (c *Auth) AuthRegister(ctx *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, 0, nil)
-	return
 }
 
 func (c *Auth) Login(ctx *gin.Context) {
@@ -140,7 +138,6 @@ func (c *Auth) Login(ctx *gin.Context) {
 	data["key"] = id
 	data["png"] = b64s
 	appG.Response(http.StatusOK, 0, data)
-	return
 }
 
 func (c *Auth) AuthLogin(ctx *gin.Context) {
@@ -194,7 +191,6 @@ func (c *Auth) AuthLogin(ctx *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, 0, token)
-	return
 }
 
 func (c *Auth) Logout(ctx *gin.Context) {
@@ -212,12 +208,28 @@ func (c *Auth) Logout(ctx *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, 0, token)
-	return
 }
 
 func (c *Auth) DelCache(ctx *gin.Context) {
 	appG := api.Gin{C: ctx}
 	service.DelAllCache()
 	appG.Response(http.StatusOK, 0, nil)
-	return
+}
+
+func (c *Auth) RefreshToken(ctx *gin.Context) {
+	appG := api.Gin{C: ctx}
+	token := ctx.GetHeader("x-auth-token")
+	if token == "" {
+		log.WithTrace(ctx).Error("token null")
+		appG.Response(http.StatusOK, 400001005, nil)
+		return
+	}
+
+	_, err := jwt.ParseToken(ctx, token)
+	if err != nil {
+		log.WithTrace(ctx).Errorf("refresh token error, err: %v", err)
+		appG.Response(http.StatusOK, 400001005, nil)
+		return
+	}
+	appG.Response(http.StatusOK, 0, nil)
 }
