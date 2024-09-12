@@ -50,7 +50,7 @@ func (p *Post) Index(ctx *gin.Context) {
 		appG.Response(http.StatusOK, 500000000, nil)
 		return
 	}
-	postCount, err := service.ConsolePostCount(ctx, limit, offset, false)
+	postCount, err := service.ConsolePostCount(ctx, false)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		appG.Response(http.StatusOK, 500000000, nil)
@@ -231,7 +231,7 @@ func (p *Post) TrashIndex(ctx *gin.Context) {
 		appG.Response(http.StatusOK, 500000000, nil)
 		return
 	}
-	postCount, err := service.ConsolePostCount(ctx, limit, offset, true)
+	postCount, err := service.ConsolePostCount(ctx, true)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		appG.Response(http.StatusOK, 500000000, nil)

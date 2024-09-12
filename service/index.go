@@ -20,9 +20,9 @@ import (
 type IndexType string
 
 const (
-	IndexTypeOne   IndexType = "tag"
-	IndexTypeTwo   IndexType = "cate"
-	IndexTypeThree IndexType = "default"
+	IndexTypeTag     IndexType = "tag"
+	IndexTypeCate    IndexType = "cate"
+	IndexTypeDefault IndexType = "default"
 )
 
 func CommonData(ctx context.Context) (h gin.H, err error) {
@@ -87,11 +87,11 @@ func CommonData(ctx context.Context) (h gin.H, err error) {
 func IndexPost(ctx context.Context, page string, limit string, indexType IndexType, name string) (indexPostIndex common.IndexPostList, err error) {
 	var postKey string
 	switch indexType {
-	case IndexTypeOne:
+	case IndexTypeTag:
 		postKey = conf.Cnf.TagPostIndexKey
-	case IndexTypeTwo:
+	case IndexTypeCate:
 		postKey = conf.Cnf.CatePostIndexKey
-	case IndexTypeThree:
+	case IndexTypeDefault:
 		postKey = conf.Cnf.PostIndexKey
 		name = "default"
 	default:
@@ -148,7 +148,7 @@ func doCacheIndexPostList(ctx context.Context, cacheKey string, field string, in
 	var postList []*common.ConsolePostList
 	var postCount int64
 	switch indexType {
-	case IndexTypeOne:
+	case IndexTypeTag:
 		tag := new(model.Tags)
 		err = conf.SqlServer.WithContext(ctx).Where("Name = ?", name).Find(&tag).Error
 		if err != nil {
@@ -160,12 +160,12 @@ func doCacheIndexPostList(ctx context.Context, cacheKey string, field string, in
 			log.WithTrace(ctx).Error(err)
 			return
 		}
-		postCount, err = PostTagListCount(ctx, tag.ID, limit, offset)
+		postCount, err = PostTagListCount(ctx, tag.ID)
 		if err != nil {
 			log.WithTrace(ctx).Error(err)
 			return
 		}
-	case IndexTypeTwo:
+	case IndexTypeCate:
 		cate := new(model.Categories)
 		err = conf.SqlServer.WithContext(ctx).Where("Name = ?", name).Find(&cate).Error
 		if err != nil {
@@ -177,18 +177,18 @@ func doCacheIndexPostList(ctx context.Context, cacheKey string, field string, in
 			log.WithTrace(ctx).Error(err)
 			return
 		}
-		postCount, err = PostCateListCount(ctx, cate.ID, limit, offset)
+		postCount, err = PostCateListCount(ctx, cate.ID)
 		if err != nil {
 			log.WithTrace(ctx).Error(err)
 			return
 		}
-	case IndexTypeThree:
+	case IndexTypeDefault:
 		postList, err = ConsolePostIndex(ctx, limit, offset, false)
 		if err != nil {
 			log.WithTrace(ctx).Error(err)
 			return
 		}
-		postCount, err = ConsolePostCount(ctx, limit, offset, false)
+		postCount, err = ConsolePostCount(ctx, false)
 		if err != nil {
 			log.WithTrace(ctx).Error(err)
 			return
@@ -200,7 +200,7 @@ func doCacheIndexPostList(ctx context.Context, cacheKey string, field string, in
 			return
 		}
 
-		postCount, err = ConsolePostCount(ctx, limit, offset, false)
+		postCount, err = ConsolePostCount(ctx, false)
 		if err != nil {
 			log.WithTrace(ctx).Error(err)
 			return

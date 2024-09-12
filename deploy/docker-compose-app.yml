@@ -1,7 +1,7 @@
 version: '3'
 services:
   blog:
-    image: blog:v0.0.2
+    image: blog:v1.0.2
     container_name: blog
     volumes:
       - ~/mydata/blog/images:/work/static/uploads/images

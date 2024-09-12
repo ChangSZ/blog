@@ -13,16 +13,16 @@ import (
 	"github.com/ChangSZ/blog/model"
 )
 
-func ConsolePostCount(ctx context.Context, limit int, offset int, isTrash bool) (count int64, err error) {
+func ConsolePostCount(ctx context.Context, isTrash bool) (count int64, err error) {
 	post := new(model.Posts)
 	if isTrash {
 		err = conf.SqlServer.WithContext(ctx).Table(post.TableName()).Unscoped().
 			Where("`deleted_at` IS NOT NULL OR `deleted_at`=?", "0001-01-01 00:00:00").
-			Order("id desc").Offset(offset).Limit(limit).Count(&count).Error
+			Order("id desc").Count(&count).Error
 	} else {
 		err = conf.SqlServer.WithContext(ctx).Table(post.TableName()).
 			Where("deleted_at IS NULL OR deleted_at = ?", "0001-01-01 00:00:00").
-			Order("id desc").Offset(offset).Limit(limit).Count(&count).Error
+			Order("id desc").Count(&count).Error
 	}
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
@@ -493,10 +493,10 @@ func PostCnt(ctx context.Context) (cnt int64, err error) {
 	return
 }
 
-func PostTagListCount(ctx context.Context, tagId int, limit int, offset int) (count int64, err error) {
+func PostTagListCount(ctx context.Context, tagId int) (count int64, err error) {
 	postTag := new(model.PostTag)
 	err = conf.SqlServer.WithContext(ctx).Table(postTag.TableName()).
-		Where("tag_id = ?", tagId).Order("id desc").Offset(offset).Limit(limit).Count(&count).Error
+		Where("tag_id = ?", tagId).Order("id desc").Count(&count).Error
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		return 0, err
@@ -541,11 +541,11 @@ func PostTagList(ctx context.Context, tagId int, limit int, offset int) (postLis
 	return postListArr, nil
 }
 
-func PostCateListCount(ctx context.Context, cateId int, limit int, offset int) (count int64, err error) {
+func PostCateListCount(ctx context.Context, cateId int) (count int64, err error) {
 	postCate := new(model.PostCate)
 	err = conf.SqlServer.WithContext(ctx).Table(postCate.TableName()).
 		Where("cate_id = ?", cateId).
-		Order("id desc").Offset(offset).Limit(limit).Count(&count).Error
+		Order("id desc").Count(&count).Error
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		return 0, err

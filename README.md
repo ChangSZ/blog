@@ -45,18 +45,18 @@
 
 ### 启动方式2：Docker启动
 ```bash
-   docker build -t blog:v0.0.2 -f Dockerfile .
+   docker build -t blog:v1.0.2 -f Dockerfile .
    # 服务器与编译机架构不一致的, 需要交叉编译, 下面举例amd64
-   docker build --platform=linux/amd64  -t blog:v0.0.2  -f Dockerfile . 
+   docker build --platform=linux/amd64  -t blog:v1.0.2  -f Dockerfile . 
 
    # 可导出镜像
-   docker save -o blog.tar blog:v0.0.2
+   docker save -o blog.tar blog:v1.0.2
 
    # 通过ftp上传至服务器，然后执行导入
    docker load -i blog.tar
 
    # 运行
-   docker run -idt --name blog --network host blog:v0.0.2
+   docker run -idt --name blog --network host blog:v1.0.2
 
    # 然后访问http://服务器IP:8081
 ```
