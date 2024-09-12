@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/ChangSZ/golib/log"
-	"github.com/dgrijalva/jwt-go"
 	"github.com/go-redis/redis"
+	"github.com/golang-jwt/jwt"
 
 	"github.com/ChangSZ/blog/infra/conf"
 	"github.com/ChangSZ/blog/infra/utils"

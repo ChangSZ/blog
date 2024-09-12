@@ -128,7 +128,7 @@ func (c *Auth) Login(ctx *gin.Context) {
 
 	captcha := base64Captcha.NewCaptcha(driverDigit, customStore)
 	// 生成验证码
-	id, b64s, err := captcha.Generate()
+	id, b64s, _, err := captcha.Generate()
 	if err != nil {
 		appG.Response(http.StatusOK, 500, err)
 		return
