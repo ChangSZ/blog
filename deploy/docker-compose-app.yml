@@ -5,6 +5,7 @@ services:
     container_name: blog
     volumes:
       - ~/mydata/blog/images:/work/static/uploads/images
+      - ~/mydata/blog/log:/work/log
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
     ports:
