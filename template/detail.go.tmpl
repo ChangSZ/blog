@@ -129,7 +129,11 @@
     <!-- Insert marked and highlight.js scripts -->
     <script src="{{.themeJs}}/vditor.index.min.js"></script>
     <script>
-        const markdownContent = {{ .post.Post.Content }};
+        let markdownContent = {{ .post.Post.Content }};
+        // 使用正则表达式匹配和替换 Markdown 图片语法
+        markdownContent = markdownContent.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
+            return `<img src="${url}" alt="${alt}" loading="lazy" />`;
+        });
         Vditor.preview(document.getElementById('markdown-content'), markdownContent, {
             markdown: {
                 toc: true,
@@ -143,6 +147,13 @@
                 chart: true,
                 media: true,
             },
+            after() {
+                // 查找渲染后的所有图片标签并添加懒加载属性
+                const images = document.querySelectorAll('#markdown-content img');
+                images.forEach((img) => {
+                    img.setAttribute('loading', 'lazy');
+                });
+            }
         });
     </script>
 
